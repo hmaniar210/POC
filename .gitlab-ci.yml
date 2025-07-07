@@ -1,0 +1,94 @@
+# GitLab CI/CD Pipeline Configuration
+image: node:20
+
+stages:
+  - install
+  - lint
+  - test
+  - report
+  - deploy
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
+cache:
+  paths:
+    - .npm/
+    - cache/Cypress/
+    - node_modules/
+
+# Install dependencies
+install_dependencies:
+  stage: install
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 hour
+
+# Run linting
+lint:
+  stage: lint
+  dependencies:
+    - install_dependencies
+  script:
+    - npm run lint
+  allow_failure: true
+
+# Run Jasmine tests
+test_jasmine:
+  stage: test
+  dependencies:
+    - install_dependencies
+  script:
+    - npm run test:jasmine
+  artifacts:
+    when: always
+    reports:
+      junit: reports/jasmine-results.xml
+    expire_in: 1 week
+
+# Run Cucumber tests
+test_cucumber:
+  stage: test
+  dependencies:
+    - install_dependencies
+  script:
+    - npm run test:cucumber
+  artifacts:
+    when: always
+    expire_in: 1 week
+
+# Generate test reports
+generate_reports:
+  stage: report
+  dependencies:
+    - install_dependencies
+  script:
+    - npm run test:cucumber:report
+    - echo "Test reports generated successfully"
+  artifacts:
+    when: always
+    paths:
+      - reports/
+    expire_in: 30 days
+    expose_as: "Test Reports"
+  allow_failure: true
+
+# Deploy reports to GitLab Pages
+pages:
+  stage: deploy
+  dependencies:
+    - generate_reports
+  script:
+    - mkdir public
+    - cp -r reports/* public/ || echo "No reports to copy"
+    - echo "Reports deployed to GitLab Pages"
+  artifacts:
+    paths:
+      - public
+    expire_in: 30 days
+  only:
+    - main

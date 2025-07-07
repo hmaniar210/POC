@@ -1,0 +1,35 @@
+# Multi-stage Dockerfile for CI/CD
+FROM node:20-alpine as test
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev dependencies)
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Create reports directory
+RUN mkdir -p reports
+
+# Run tests and generate reports
+RUN npm run test:ci
+
+# Production image
+FROM nginx:alpine as production
+
+# Copy static files
+COPY src/ /usr/share/nginx/html/
+
+# Copy test reports
+COPY --from=test /app/reports /usr/share/nginx/html/reports
+
+# Copy custom nginx config if needed
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

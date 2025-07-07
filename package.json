@@ -8,9 +8,15 @@
     "test:jasmine": "jasmine --config=jasmine.json",
     "test:cucumber": "cucumber-js",
     "test:cucumber:report": "cucumber-js tests/cucumber/features --require tests/cucumber/step_definitions --format html:reports/cucumber-report.html",
+    "test:cucumber:json": "cucumber-js tests/cucumber/features --require tests/cucumber/step_definitions --format json:reports/cucumber-report.json",
+    "test:ci": "npm run lint && npm run test:jasmine && npm run test:cucumber && npm run test:cucumber:report",
+    "test:all-formats": "npm run test:cucumber:report && npm run test:cucumber:json",
     "start": "live-server src/",
     "dev": "live-server src/ --port=8080",
-    "lint": "eslint src/js/**/*.js tests/**/*.js"
+    "lint": "eslint src/js/**/*.js tests/**/*.js",
+    "lint:fix": "eslint src/js/**/*.js tests/**/*.js --fix",
+    "clean": "rimraf reports coverage",
+    "pretest": "npm run clean && mkdir -p reports"
   },
   "keywords": [
     "jasmine",
@@ -28,7 +34,8 @@
     "eslint": "^8.49.0",
     "jasmine": "^4.6.0",
     "jasmine-console-reporter": "^3.1.0",
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "rimraf": "^5.0.5"
   },
   "dependencies": {
     "jsdom": "^22.1.0"

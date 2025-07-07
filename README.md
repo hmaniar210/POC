@@ -240,6 +240,6 @@ This is a proof-of-concept project demonstrating:
 
 ---
 
-*Last Updated: 7 July 2025*  
-*Owner: Harsh Maniar*  
-*Project Status: Proof of Concept*
+_Last Updated: 7 July 2025_  
+_Owner: Harsh Maniar_  
+_Project Status: Proof of Concept_

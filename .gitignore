@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
 
 # Runtime data
 pids
@@ -14,9 +15,19 @@ pids
 coverage/
 *.lcov
 
-# Test reports
+# Test reports (keep in CI/CD artifacts)
 reports/
 *.log
+
+# CI/CD cache and temporary files
+.npm/
+cache/
+tmp/
+temp/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
 
 # IDE files
 .vscode/
