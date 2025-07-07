@@ -10,12 +10,10 @@ stages:
 
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
-  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
 
 cache:
   paths:
     - .npm/
-    - cache/Cypress/
     - node_modules/
 
 # Install dependencies
