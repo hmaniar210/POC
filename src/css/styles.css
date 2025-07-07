@@ -1,0 +1,236 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Container styles */
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  transition: all 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Typography */
+h1,
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  color: #667eea;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Button styles */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  margin-top: 1rem;
+}
+
+.logout-btn:hover {
+  box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+}
+
+/* Link styles */
+.link-btn {
+  display: block;
+  text-align: center;
+  color: #667eea;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+.link-btn:hover {
+  color: #764ba2;
+  text-decoration: underline;
+}
+
+/* Message styles */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: none;
+  padding: 0.5rem;
+  background: #ffeaea;
+  border-radius: 5px;
+  border-left: 4px solid #e74c3c;
+}
+
+.success-message {
+  color: #27ae60;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: none;
+  padding: 0.5rem;
+  background: #eafaf1;
+  border-radius: 5px;
+  border-left: 4px solid #27ae60;
+}
+
+/* Utility classes */
+.hidden {
+  display: none !important;
+}
+
+/* Dashboard styles */
+.dashboard {
+  text-align: center;
+}
+
+.user-info {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #667eea;
+}
+
+.user-info h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.user-info h4 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.user-info p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+/* Demo users info */
+.demo-users {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  color: #666;
+  border-left: 4px solid #17a2b8;
+}
+
+.demo-users h4 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem;
+    margin: 10px;
+  }
+
+  .page-title {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

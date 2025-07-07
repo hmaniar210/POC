@@ -1,0 +1,36 @@
+{
+  "name": "jasmine-bdd-poc",
+  "version": "1.0.0",
+  "description": "POC demonstrating migration from Jasmine to Cucumber BDD testing",
+  "main": "src/index.html",
+  "scripts": {
+    "test": "npm run test:jasmine && npm run test:cucumber",
+    "test:jasmine": "jasmine --config=jasmine.json",
+    "test:cucumber": "cucumber-js",
+    "test:cucumber:report": "cucumber-js tests/cucumber/features --require tests/cucumber/step_definitions --format html:reports/cucumber-report.html",
+    "start": "live-server src/",
+    "dev": "live-server src/ --port=8080",
+    "lint": "eslint src/js/**/*.js tests/**/*.js"
+  },
+  "keywords": [
+    "jasmine",
+    "cucumber",
+    "bdd",
+    "testing",
+    "gherkin",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "@cucumber/cucumber": "^9.6.0",
+    "chai": "^4.3.8",
+    "eslint": "^8.49.0",
+    "jasmine": "^4.6.0",
+    "jasmine-console-reporter": "^3.1.0",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "jsdom": "^22.1.0"
+  }
+}

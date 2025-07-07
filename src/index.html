@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jasmine to BDD Cucumber POC</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-title">Authentication System for POC</div>
+
+      <!-- Login Form -->
+      <div id="loginForm" class="form-container">
+        <h2>Sign In</h2>
+        <div class="demo-users">
+          <h4>Demo Credentials:</h4>
+          <p>Email: admin@example.com</p>
+          <p>Password: admin123</p>
+        </div>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit" class="btn">Sign In</button>
+          <div class="error-message" id="login-error"></div>
+        </form>
+        <a href="#" class="link-btn" onclick="showForgotPassword()"
+          >Forgot Password?</a
+        >
+      </div>
+
+      <!-- Forgot Password Form -->
+      <div id="forgotPasswordForm" class="form-container hidden">
+        <h2>Forgot Password</h2>
+        <form id="forgot-form">
+          <div class="form-group">
+            <label for="forgot-email">Email:</label>
+            <input
+              type="email"
+              id="forgot-email"
+              name="forgot-email"
+              required
+            />
+          </div>
+          <button type="submit" class="btn">Send Reset Link</button>
+          <div class="error-message" id="forgot-error"></div>
+          <div class="success-message" id="forgot-success"></div>
+        </form>
+        <a href="#" class="link-btn" onclick="showLogin()">Back to Login</a>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="dashboard" class="form-container hidden">
+        <div class="dashboard">
+          <h2>Dashboard</h2>
+          <div class="user-info">
+            <h3>Welcome, <span id="username"></span>!</h3>
+            <p>Email: <span id="user-email"></span></p>
+          </div>
+          <button class="btn logout-btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- External JavaScript modules -->
+    <script src="js/auth.js"></script>
+    <script src="js/validation.js"></script>
+
+    <script>
+      // Navigation functions
+      function showLogin() {
+        document.getElementById("loginForm").classList.remove("hidden");
+        document.getElementById("forgotPasswordForm").classList.add("hidden");
+        document.getElementById("dashboard").classList.add("hidden");
+      }
+
+      function showForgotPassword() {
+        document.getElementById("loginForm").classList.add("hidden");
+        document
+          .getElementById("forgotPasswordForm")
+          .classList.remove("hidden");
+        document.getElementById("dashboard").classList.add("hidden");
+      }
+
+      function showDashboard(user) {
+        document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("forgotPasswordForm").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+
+        document.getElementById("username").textContent = user.name;
+        document.getElementById("user-email").textContent = user.email;
+        document.getElementById("last-login").textContent = user.lastLogin;
+      }
+
+      function logout() {
+        showLogin();
+        document.getElementById("login-form").reset();
+        document.getElementById("login-error").style.display = "none";
+      }
+
+      // Form handlers
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const errorDiv = document.getElementById("login-error");
+
+          // Validate form using external validation module
+          const validationErrors = ValidationModule.validateLoginForm(
+            email,
+            password
+          );
+          if (validationErrors.length > 0) {
+            errorDiv.textContent = validationErrors[0];
+            errorDiv.style.display = "block";
+            return;
+          }
+
+          // Authenticate using external auth module
+          const user = AuthModule.authenticate(email, password);
+          if (user) {
+            AuthModule.updateLastLogin(email);
+            showDashboard(user);
+          } else {
+            errorDiv.textContent = "Invalid email or password";
+            errorDiv.style.display = "block";
+          }
+        });
+
+      document
+        .getElementById("forgot-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const email = document.getElementById("forgot-email").value;
+          const errorDiv = document.getElementById("forgot-error");
+          const successDiv = document.getElementById("forgot-success");
+
+          errorDiv.style.display = "none";
+          successDiv.style.display = "none";
+
+          if (!ValidationModule.isValidEmail(email)) {
+            errorDiv.textContent = "Please enter a valid email address";
+            errorDiv.style.display = "block";
+            return;
+          }
+
+          if (AuthModule.userExists(email)) {
+            successDiv.textContent = "Password reset link sent to your email";
+            successDiv.style.display = "block";
+            document.getElementById("forgot-form").reset();
+          } else {
+            errorDiv.textContent = "Email not found in our system";
+            errorDiv.style.display = "block";
+          }
+        });
+
+      // Initialize
+      showLogin();
+    </script>
+  </body>
+</html>
